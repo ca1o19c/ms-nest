@@ -7,12 +7,32 @@ export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get()
-  async all() {
-    return this.productService.all();
+  async index() {
+    return this.productService.index();
   }
 
-  @EventPattern('hello')
-  async hello(data: string) {
-    console.log(data);
+  @EventPattern('product_created')
+  async productCreated(product: any) {
+    await this.productService.storage({
+      id: product.id,
+      title: product.title,
+      image: product.image,
+      likes: product.likes,
+    });
+  }
+
+  @EventPattern('product_updated')
+  async productUpdate(product: any) {
+    await this.productService.update(product.id, {
+      id: product.id,
+      title: product.title,
+      image: product.image,
+      likes: product.likes,
+    });
+  }
+
+  @EventPattern('product_deleted')
+  async productDeleted(id: number) {
+    await this.productService.destroy(id);
   }
 }
