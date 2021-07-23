@@ -21,16 +21,19 @@ export class ProductController {
 
   @Get()
   async index() {
-    this.client.emit('hello', 'Hello from RabbitMQ!');
     return this.productService.index();
   }
 
   @Post()
   async store(@Body('title') title: string, @Body('image') image: string) {
-    return this.productService.store({
+    const product = await this.productService.store({
       title,
       image,
     });
+
+    this.client.emit('product_created', product);
+
+    return product;
   }
 
   @Get(':id')
@@ -44,11 +47,19 @@ export class ProductController {
     @Body('title') title: string,
     @Body('image') image: string,
   ) {
-    return this.productService.update(id, { title, image });
+    await this.productService.update(id, { title, image });
+
+    const product = await this.productService.show(id);
+
+    this.client.emit('product_updated', product);
+
+    return product;
   }
 
   @Delete(':id')
   async destroy(@Param('id') id: number) {
-    return this.productService.destroy(id);
+    await this.productService.destroy(id);
+
+    this.client.emit('product_deleted', id);
   }
 }
