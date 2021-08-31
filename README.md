@@ -22,20 +22,6 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
-
-Docker images necessary.
-
-## Installation
-
-```bash
-$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
-```
-
-```bash
-$ docker run  --name mongodb -p 27017:27017 -d mongo
-```
-
 ## License
 
 Nest is [MIT licensed](LICENSE).
